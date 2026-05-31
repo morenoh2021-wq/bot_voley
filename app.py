@@ -10,7 +10,7 @@ app = Flask(__name__)
 # CONFIGURACIÓN DE WHATSAPP INTEGRADA OFICIAL
 NUMERO_TELEFONO = "34641408180"  
 API_KEY_WHATSAPP = "1076941"
-URL_WEB_INTERNET = ""  # Se rellenará automáticamente al desplegar
+URL_WEB_INTERNET = "https://bot-voley.onrender.com"  # Se rellenará automáticamente al desplegar
 
 PLANTILLA = [
     {'nombre': 'Héctor Moreno', 'rol': 'A', 'nivel': 100, 'foto': 'hector_moreno.jpg'},
