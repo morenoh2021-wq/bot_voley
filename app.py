@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template_string
 import requests
-from tsync import Thread  # Control de hilos para el reloj secundario
+from threading import Thread  # Control de hilos para el reloj secundario
 import time
 from datetime import datetime
 import pytz
