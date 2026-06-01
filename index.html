@@ -1,135 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VOLEY BINACED</title>
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            text-align: center; 
-            margin: 0;
-            padding: 30px 10px;
-            /* Degradado de colores oficiales de una cancha profesional (azul central y exterior naranja/terracota) */
-            background: radial-gradient(circle at center, #1e40af 0%, #1e3a8a 50%, #c2410c 100%);
-            background-attachment: fixed;
-            color: #333; 
-            position: relative;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
+            min-height: 100vh; 
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
-        /* Líneas decorativas sutiles que imitan la red y la pista de voley */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px) 50% 0 / 100% 100%,
-                linear-gradient(0deg, rgba(255,255,255,0.07) 2px, transparent 2px) 0 50% / 100% 80px;
-            z-index: -1;
-            pointer-events: none;
-        }
-        /* Contenedor principal con efecto de cristal traslúcido flotante */
-        .box { 
-            background: rgba(255, 255, 255, 0.92); 
-            backdrop-filter: blur(8px);
-            padding: 30px; 
-            border-radius: 24px; 
-            display: inline-block; 
-            box-shadow: 0px 20px 40px rgba(0,0,0,0.3); 
-            width: 95%; 
-            max-width: 550px; 
-            border: 1px solid rgba(255,255,255,0.5);
-        }
-        .btn-asistir { background-color: #10b981; color: white; border: none; cursor: pointer; font-weight: bold; padding: 8px 16px; border-radius: 8px; font-size: 13px; transition: 0.2s; }
-        .btn-asistir:hover { background-color: #059669; transform: scale(1.05); }
-        
-        .btn-calcular { 
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); 
-            color: white; 
-            border: none; 
-            cursor: pointer; 
-            font-weight: bold; 
+        .container { 
+            background: #ffffff; 
             width: 100%; 
-            padding: 16px; 
-            border-radius: 12px; 
-            font-size: 16px; 
-            box-shadow: 0 6px 20px rgba(29, 78, 216, 0.4); 
-            transition: 0.2s;
-            letter-spacing: 0.5px;
-        }
-        .btn-calcular:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(29, 78, 216, 0.5); }
-        
-        .btn-limpiar { background-color: #ef4444; color: white; border: none; cursor: pointer; font-size: 13px; padding: 8px 16px; border-radius: 8px; transition: 0.2s; }
-        .btn-limpiar:hover { background-color: #dc2626; }
-        
-        .contenedor-equipos { display: flex; justify-content: center; gap: 25px; margin-top: 40px; flex-wrap: wrap; padding: 10px; }
-        
-        /* Tarjetas de equipo con diseño deportivo e higiénico */
-        .tarjeta-equipo { 
-            border: none;
+            max-width: 500px; 
+            border-radius: 16px; 
             padding: 20px; 
-            border-radius: 20px; 
-            width: 280px; 
-            background: rgba(255, 255, 255, 0.95); 
-            box-shadow: 0px 15px 30px rgba(0,0,0,0.25); 
-            transition: 0.3s;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            margin-top: 10px;
         }
-        .tarjeta-equipo:hover { transform: translateY(-5px); }
+        h1 { font-size: 1.4rem; color: #1e3c72; text-align: center; margin-bottom: 5px; text-transform: uppercase; }
+        .subtitle { font-size: 0.9rem; color: #666; text-align: center; margin-bottom: 20px; }
         
-        .avatar { width: 44px; height: 44px; border-radius: 50%; vertical-align: middle; margin-right: 12px; border: 2px solid #3b82f6; object-fit: cover; }
-        .lista-jugador { text-align: left; margin: 10px 0; display: flex; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; }
+        .player-card { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 12px 8px; 
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s;
+        }
         
-        .tabla-seleccion { width: 100%; max-height: 280px; overflow-y: auto; text-align: left; margin-top: 20px; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; background: #fafafa; }
-        .fila-seleccion { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f1f5f9; }
-        .fila-seleccion:last-child { border-bottom: none; }
+        /* Estados de color para NOMBRE Y APELLIDO */
+        .player-name { font-size: 1.05rem; font-weight: 600; color: #333; flex-grow: 1; padding-right: 10px; }
+        .player-card.confirmed-yes .player-name { color: #27ae60 !important; }
+        .player-card.confirmed-no .player-name { color: #c0392b !important; text-decoration: line-through; opacity: 0.7; }
+        
+        .btn-group { display: flex; gap: 8px; shrink: 0; }
+        .btn { 
+            border: none; 
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .btn-yes { background-color: #e8f8f0; color: #2e7d32; border: 1px solid #a3e2bc; }
+        .btn-no { background-color: #fdeadc; color: #c62828; border: 1px solid #f5b7b1; }
+        
+        /* Botones cuando ya están activos */
+        .player-card.confirmed-yes .btn-yes { background-color: #27ae60; color: white; border-color: #27ae60; }
+        .player-card.confirmed-no .btn-no { background-color: #c0392b; color: white; border-color: #c0392b; }
+        
+        .actions { margin-top: 25px; display: flex; flex-direction: column; gap: 12px; }
+        .btn-main { background: #2a5298; color: white; padding: 14px; border-radius: 10px; font-size: 1rem; border: none; font-weight: bold; width: 100%; cursor: pointer; text-transform: uppercase; }
+        .btn-danger { background: #f2dede; color: #a94442; padding: 10px; border-radius: 8px; font-size: 0.9rem; border: 1px solid #ebccd1; width: 100%; cursor: pointer; font-weight: bold; }
+        .counter { text-align: center; font-weight: bold; color: #2a5298; margin-top: 15px; font-size: 1.1rem; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <h2 style="margin-top:0; color:#1e3a8a; font-size: 23px; font-weight: 800; letter-spacing: -0.5px;">🏐 VOLEY BINACED MARTES DE 8 A 10PM 🏐</h2>
-        <p style="font-size:14.5px; color:#4b5563; margin-bottom:5px;"><b>¿Quién va a jugar hoy? Apúntate en la lista:</b></p>
-        
-        <div class="tabla-seleccion">
-            {% for j in plantilla %}
-                <div class="fila-seleccion">
-                    <div style="display:flex; align-items:center;">
-                        <span style="font-size:14.5px; font-weight:600; color: #1e293b; margin-left: 5px;">{{ j.nombre }} <span style="color:#64748b; font-size:12.5px; font-weight:normal;">({{ j.rol }})</span></span>
-                    </div>
-                    <form method="POST" action="/apuntar_nombre" style="display:inline;">
-                        <input type="hidden" name="nombre_jugador" value="{{ j.nombre }}">
-                        <button type="submit" class="btn-asistir">👍 Convocar</button>
-                    </form>
-                </div>
-            {% endfor %}
-        </div>
 
-        <div style="margin-top: 25px;">
-            <form method="POST" action="/generar_manual" style="display:inline;">
-                <button type="submit" class="btn-calcular">⚡ BALANCEAR NIVELES Y ENVIAR EQUIPO ⚡</button>
-            </form>
-            <div style="margin-top: 16px; display:flex; justify-content:space-between; align-items:center;">
-                <span style="font-size:15px; font-weight:bold; color:#1e40af; background: #dbeafe; padding: 4px 12px; border-radius: 20px;">Confirmados: {{ asistentes|length }} jug.</span>
-                <form method="POST" action="/limpiar" style="display:inline;">
-                    <button type="submit" class="btn-limpiar">Vaciar Lista</button>
-                </form>
+<div class="container">
+    <h1>🏐 VOLEY BINACED 🏐</h1>
+    <div class="subtitle">¿Quién juega este martes? Selecciona tu opción:</div>
+
+    <div id="lista-jugadores">
+        <!-- Aquí tu app.py cargará dinámicamente la plantilla -->
+        {% for jugador in plantilla %}
+        <div class="player-card {% if jugador.status == 'si' %}confirmed-yes{% elif jugador.status == 'no' %}confirmed-no{% endif %}">
+            <div class="player-name">{{ jugador.nombre }} <span style="font-size:0.8rem; color:#888;">({{ jugador.rol }})</span></div>
+            <div class="btn-group">
+                <button class="btn btn-yes" onclick="marcar('{{ jugador.nombre }}', 'si')">SÍ</button>
+                <button class="btn btn-no" onclick="marcar('{{ jugador.nombre }}', 'no')">NO</button>
             </div>
         </div>
+        {% endfor %}
     </div>
 
-    {% if resultados %}
-        <div class="contenedor-equipos">
-            {% for eq, jugadores in resultados.items() %}
-                <div class="tarjeta-equipo">
-                    <h3 style="margin: 0 0 15px 0; color: #1e3a8a; font-size: 20px; font-weight: 800; border-bottom: 3px solid #3b82f6; padding-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">🔥 {{ eq }} 🔥</h3>
-                    {% for j in jugadores %}
-                        <div class="lista-jugador">
-                            <img class="avatar" src="/static/{{ j.foto }}" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/166/166347.png';">
-                            <div style="flex-grow: 1;">
-                                <span style="font-size: 14.5px; font-weight: 700; color:#0f172a;">{{ j.nombre }}</span><br>
-                                <span style="font-size: 12.5px; color:#64748b; font-weight: 500;">Posición: <b style="color:#1e40af;">{{ j.rol }}</b></span>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
+    <div class="counter">
+        Confirmados: <span id="total">{{ total_confirmados }}</span> jug.
+    </div>
+
+    <div class="actions">
+        <button class="btn-main" onclick="balancear()">⚡ Balancear Niveles y Enviar ⚡</button>
+        <button class="btn-danger" onclick="vaciar()">Vaciar Lista (Reset semanal)</button>
+    </div>
+</div>
+
+<script>
+    function marcar(nombre, opcion) {
+        fetch('/marcar', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ nombre: nombre, opcion: opcion })
+        }).then(() => location.reload());
+    }
+    function balancear() { fetch('/balancear').then(() => alert('¡Equipos enviados a WhatsApp!')); }
+    function vaciar() { if(confirm('¿Seguro que quieres vaciar la lista?')) { fetch('/vaciar').then(() => location.reload()); } }
+</script>
+
 </body>
 </html>
